@@ -48,6 +48,16 @@ var buildLibraryRoom = function (rooms) {
     var newRoom = rooms[floor];
     var exit = ["East", "North", "West"];
     var entrance = "south";
+    var items = [
+      "Blue Wizard Hat",
+      "Blue Wizard Robe",
+      "Red Wizard Hat",
+      "Red Wizard Robe",
+      "Green Wizard Hat",
+      "Green Wizard Robe",
+      "White Wizard Hat",
+      "White Wizard Robe",
+    ];
     room.level = floor;
     room.name = newRoom;
     room.increaseBoost = randomBoost();
