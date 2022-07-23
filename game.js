@@ -127,3 +127,19 @@ console.log(getPlanetInfo(planet2));
 
 // calculateSizes(planet1);
 // displaySizes(planet1);
+
+var point1, point2;
+var move;
+var showPoint;
+// ability for Wizards/player to walk
+move = function (point, change) {
+  return {
+    x: point.x + change.x,
+    y: point.y + change.y,
+  };
+};
+
+// show player position/point
+showPoint = function (point) {
+  console.log(" (" + point.x + " , " + point.y + " )");
+};
