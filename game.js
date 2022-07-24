@@ -19,18 +19,18 @@ player2 = {
   health: 40,
 };
 // ? Show player info
-var showPlayerInfo = function (player, character) {
-  console.log(player.name);
-  console.log("------------------------------");
-  console.log(player.name + " is in " + player.place);
-  console.log(player.name + " has health " + player.health);
-  console.log("------------------------------");
-  console.log("");
-  console.log(getPlayerInfo(player, character));
-};
+// var showPlayerInfo = function (player, character) {
+//   console.log(player.name);
+//   console.log("------------------------------");
+//   console.log(player.name + " is in " + player.place);
+//   console.log(player.name + " has health " + player.health);
+//   console.log("------------------------------");
+//   console.log("");
+//   console.log(getPlayerInfo(player, character));
+// };
 
-showPlayerInfo(player1);
-showPlayerInfo(player2);
+// showPlayerInfo(player1);
+// showPlayerInfo(player2);
 
 // getMessage = function () {
 //   console.log("I am going on an adventure");
@@ -61,9 +61,14 @@ showPlayerInfo(player2);
 // var getPlayerPlace = function (playerName, playerPlace) {
 //   return playerName + " is in " + playerPlace;
 // };
-var getPlayerPlace = function (player) {
-  return player.name + " is in  ", player.place;
-};
+// var getPlayerItems = function (player) {
+//   var itemsString = "Items:" + spacer.newLine();
+//   player.items.forEach(function (item) {
+//     itemsString += "    -  " + item + spacer.newLine();
+//   });
+//   return itemsString;
+// };
+
 // var getBorder = function () {
 //   return "================================";
 // };
@@ -91,7 +96,7 @@ var getPlayerPlace = function (player) {
 // console.log(getPlayerInfo(player1.name, player1.place, player1.health));
 // console.log(getPlayerInfo(player2.name, player2.place, player2.health));
 
-// ? but its much easier to access when placing an object in the parameter. its cleaner, and if you needed to, you can decontruct it
+// // ? but its much easier to access when placing an object in the parameter. its cleaner, and if you needed to, you can decontruct it
 
 // var planet1 = { name: "Jupiter", radius: 69911 };
 // var buildPlanet;
@@ -133,9 +138,9 @@ var getPlayerPlace = function (player) {
 // calculateSizes(planet1);
 // displaySizes(planet1);
 
-var point1, point2;
-var move;
-var showPoint;
+// var point1, point2;
+// var move;
+// var showPoint;
 
 // ? ability for Wizards/player to walk
 // move = function (point, change) {
@@ -203,66 +208,92 @@ var showPoint;
 // console.log(message.substring(charIndex, 3));
 
 //? main spacer code
-// var spacer = {
-//   blank: function () {
-//     return "";
-//   },
-//   newLine: function () {
-//     return "\n";
-//   },
-//   line: function (length, character) {
-//     var longString = "****************************************";
-//     longString += "----------------------------------------";
-//     longString += "========================================";
-//     longString += "++++++++++++++++++++++++++++++++++++++++";
-//     longString += " ";
-//     length = Math.max(0, length);
-//     length = Math.min(40, length);
-//     return longString.substr(longString.indexOf(character), length);
-//   },
-//   wrap: function (text, length, character) {
-//     var padLength = length - text.length - 3;
-//     var wrapText = character + " " + text;
-//     wrapText += spacer.line(padLength, " ");
-//     wrapText += character;
-//     return wrapText;
-//   },
-//   box: function (text, length, character) {
-//     var boxText = spacer.newLine();
-//     boxText += spacer.line(length, character) + spacer.newLine();
-//     boxText += spacer.wrap(text, length, character) + spacer.newLine();
-//     boxText += spacer.line(length, character) + spacer.newLine();
-//     return boxText;
-//   },
-// };
+var spacer = {
+  blank: function () {
+    return "";
+  },
+  newLine: function () {
+    return "\n";
+  },
+  line: function (length, character) {
+    var longString = "****************************************";
+    longString += "----------------------------------------";
+    longString += "========================================";
+    longString += "++++++++++++++++++++++++++++++++++++++++";
+    longString += " ";
+    length = Math.max(0, length);
+    length = Math.min(40, length);
+    return longString.substr(longString.indexOf(character), length);
+  },
+  wrap: function (text, length, character) {
+    var padLength = length - text.length - 3;
+    var wrapText = character + " " + text;
+    wrapText += spacer.line(padLength, " ");
+    wrapText += character;
+    return wrapText;
+  },
+  box: function (text, length, character) {
+    var boxText = spacer.newLine();
+    boxText += spacer.line(length, character) + spacer.newLine();
+    boxText += spacer.wrap(text, length, character) + spacer.newLine();
+    boxText += spacer.line(length, character) + spacer.newLine();
+    return boxText;
+  },
+};
 // console.log(spacer.box("Mercury", 11, "="));
 // console.log(spacer.box("Mars", 11, "*"));
 
-// var getPlayerName = function (player) {
-//   return player.name;
-// };
-// var getPlayerHealth = function (player) {
-//   return player.health;
-// };
-// var getPlayerPlace = function (player) {
-//   return player.name + " is in " + player.place;
-// };
-// var getPlayerInfo = function (player, character) {
-//   var place = getPlayerPlace(player);
-//   var health = getPlayerHealth(player);
-// find out which sentence is longer for presentation purposes
-//   var longest = Math.max(place.length, health.length);
+var getPlayerName = function (player) {
+  return player.name;
+};
+var getPlayerHealth = function (player) {
+  return player.health;
+};
+var getPlayerPlace = function (player) {
+  return player.name + " is in " + player.place;
+};
+var getPlayerItems = function (player) {
+  var itemsString = "Items:" + spacer.newLine();
+  player.items.forEach(function (item) {
+    itemsString += " - " + item + spacer.newLine();
+  });
+  return itemsString;
+};
+var getPlayerInfo = function (player, character) {
+  var place = getPlayerPlace(player);
+  var health = getPlayerHealth(player);
+  // find out which sentence is longer for presentation purposes
+  var longest = Math.max(place.length, health.length);
 
-//   var info = spacer.box(getPlayerName(player), longest, character);
-//   info += spacer.wrap(place, longest, character);
-//   info += spacer.newLine() + spacer.wrap(health, longest, character);
-//   info += spacer.newLine() + spacer.line(longest, character);
-//   info += spacer.newLine();
-//   return info;
-// };
-// var player1 = { name: "Kandra", place: "The Dungeon Of Doom", health: 50 };
-// var player2 = { name: "Dax", place: "The Monster of the Arena", health: 50 };
+  var info = spacer.box(getPlayerName(player), longest, character);
+  // player information
+  info += spacer.wrap(place, longest, character);
+  info += spacer.newLine() + spacer.wrap(health, longest, character);
+  info += spacer.newLine() + spacer.line(longest, character);
+  // get items
+  info += spacer.newLine();
+  info += "  " + getPlayerItems(player);
+  info += spacer.newLine();
+  info += spacer.line(longest, character);
 
+  info += spacer.newLine();
+  return info;
+};
+
+var player1 = {
+  name: "Kandra",
+  place: "The Dungeon Of Doom",
+  health: 50,
+  items: ["a trusty lamp"],
+};
+var player2 = { name: "Dax", place: "The Monster of the Arena", health: 50 };
+
+var showPlayerInfo = function (player, character) {
+  console.log(getPlayerInfo(player, character));
+};
+// showPlayerInfo(player1, "=");
+// player1.items.push("a rusty key");
+// showPlayerInfo(player1, "*");
 // console.log(getPlayerInfo(player1, "="));
 // console.log(getPlayerInfo(player2, "+"));
 
@@ -312,27 +343,114 @@ var showPoint;
 // var players = ["Dax", "Jahver", "Kandra"];
 // players.forEach(showArguments);
 
-var displayQuestion = function (questionAndAnswer) {
-  var options = ["A", "B", "C", "D", "E"];
+// var displayQuestion = function (questionAndAnswer) {
+//   var options = ["A", "B", "C", "D", "E"];
 
-  console.log(questionAndAnswer.question);
+//   console.log(questionAndAnswer.question);
 
-  questionAndAnswer.answers.forEach(function (answer, i) {
-    console.log(options[i] + " -  " + answer);
-  });
+//   questionAndAnswer.answers.forEach(function (answer, i) {
+//     console.log(options[i] + " -  " + answer);
+//   });
+// };
+
+// var question1 = {
+//   question: "What is the capital of France",
+//   answers: ["Bordeaux", "F", "Paris", "Brussels"],
+// };
+
+// displayQuestion(question1);
+
+var planets;
+//? constructor function, creating Planets
+
+// var Planet = function (name, position, type) {
+//   this.name = name;
+//   this.position = position;
+//   this.type = type;
+//   this.moons = [];
+
+//   this.showPlanet = function () {
+//     var info = this.name + ": planet " + this.position;
+//     info += " - " + this.type;
+//     console.log(info);
+//     console.log("Moons: " + this.moons.join(", ") + ".");
+//   };
+//   this.addMoon = function (moon) {
+//     // this.moons.push(moon);
+//     // use this to prepend elements to start
+//     this.moons.unshift(moon);
+//   };
+// };
+
+// var planet = new Planet("Jupiter", 5, "Gas Giant");
+// planet.addMoon("I0");
+// planet.addMoon("Europa");
+// planet.showPlanet();
+
+// var planet2 = new Planet("Neptune", 8, "Ice Giant");
+// planet2.addMoon("Triton");
+
+// var planet3 = new Planet("Mercury", 1, "Terrestrial");
+// [planet, planet2, planet3].forEach(function (planet) {
+//   planet.showPlanet();
+// });
+
+// // thiis is how to check for instance of a class
+// console.log(planet instanceof Planet);
+
+var quizQuestions;
+//? constructor funciton, creating a quiz with answers
+
+var QuizQuestion = function (question, answer) {
+  this.question = question;
+  this.answer = answer;
+  this.options = [];
+
+  this.addOption = function (option) {
+    this.options.push(option);
+  };
+  this.showQuestion = function () {
+    console.log(this.question);
+    this.options.forEach(function (option, i) {
+      // for each options, print index of option, display 1-4 instead of 0-3
+      console.log("(" + (i + 1) + ") " + option);
+    });
+  };
 };
 
-var question1 = {
-  question: "What is the capital of France",
-  answers: ["Bordeaux", "F", "Paris", "Brussels"],
+var question1 = new QuizQuestion("What is the capital of France?", "Paris");
+question1.addOption("Bordeaux");
+question1.addOption("F");
+question1.addOption("Paris");
+question1.addOption("Brussels`");
+
+question1.showQuestion();
+
+//? constructor function, creating a calendar event
+var CalendarEvent = function (title, startDate, startTime, endTime) {
+  this.title = title;
+  this.startDate = startDate;
+  this.startTime = startTime;
+  this.endTime = endTime;
+
+  this.showEvent = function () {
+    // create array of date,
+    var dateString = [
+      this.startDate,
+      ", from ",
+      this.startTime,
+      " to ",
+      this.endTime,
+    ].join("");
+    console.log(this.title);
+    console.log(dateString);
+  };
 };
 
-displayQuestion(question1);
-
-var getPlayerItems = function (player) {
-  var itemsString = "Items:" + spacer.newLine();
-  player.items.forEach(function (item) {
-    itemsString += "    -  " + item + spacer.newLine();
-  });
-  return itemsString;
-};
+var calEvent = new CalendarEvent(
+  "Annual Review",
+  "3/15/16/",
+  "4:00 PM",
+  "5:00 PM"
+);
+calEvent.showEvent();
