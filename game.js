@@ -424,7 +424,7 @@ question1.addOption("F");
 question1.addOption("Paris");
 question1.addOption("Brussels`");
 
-question1.showQuestion();
+// question1.showQuestion();
 
 //? constructor function, creating a calendar event
 var CalendarEvent = function (title, startDate, startTime, endTime) {
@@ -447,10 +447,74 @@ var CalendarEvent = function (title, startDate, startTime, endTime) {
   };
 };
 
-var calEvent = new CalendarEvent(
-  "Annual Review",
-  "3/15/16/",
-  "4:00 PM",
-  "5:00 PM"
+// var calEvent = new CalendarEvent(
+//   "Annual Review",
+//   "3/15/16/",
+//   "4:00 PM",
+//   "5:00 PM"
+// );
+// calEvent.showEvent();
+
+var Place = function (title, description) {
+  var newLine = spacer.newLine();
+  this.title = title;
+  this.description = description;
+  this.items = [];
+  this.exits = [];
+
+  this.getItems = function () {
+    var itemsString = "Items: " + spacer.newLine();
+    this.items.forEach(function (item) {
+      itemsString += "    - " + item;
+      itemsString += spacer.newLine();
+    });
+
+    return itemsString;
+  };
+  this.getTitle = function () {
+    return spacer.box(this.title, this.title.length + 4, "=");
+  };
+  this.getExits = function () {
+    var exitsString = "Exists from " + this.title;
+    this.exits.forEach(function (exit) {
+      exitsString += "   - " + exit.title;
+      exitsString += newLine;
+    });
+    return exitsString;
+  };
+  this.getInfo = function () {
+    var infoString = this.getTitle();
+    infoString += this.description + newLine + newLine;
+    infoString += this.getItems() + newLine;
+    infoString += this.getExits();
+    infoString += spacer.line(40, "=") + newLine;
+    return infoString;
+  };
+  this.addItem = function (item) {
+    this.items.push(item);
+  };
+  this.addExit = function (exit) {
+    this.exits.push(exit);
+  };
+  this.showInfo = function () {
+    console.log(this.getInfo());
+  };
+};
+
+var library = new Place(
+  "The Old Library",
+  "You are in a library. Dusty books line the walls."
 );
-calEvent.showEvent();
+
+var kitchen = new Place(
+  "The Kitchen",
+  "You are in the kitchen. There is a disturbing smell"
+);
+var hall = new Place(
+  "The Main Hall",
+  "You are in a large hall. It is strangely empty"
+);
+library.addItem("A rusty key");
+library.addExit(kitchen);
+library.addExit(hall);
+library.showInfo();
