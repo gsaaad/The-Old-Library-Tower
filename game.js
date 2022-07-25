@@ -531,53 +531,53 @@ var Place = function (title, description) {
 // library.showInfo();
 
 // ? Constructor function, Player
-// var Player = function (name, health) {
-//   var newLine = spacer.newLine();
+var Player = function (name, health) {
+  var newLine = spacer.newLine();
 
-//   this.name = name;
-//   this.health = health;
-//   this.items = [];
-//   this.place = null;
+  this.name = name;
+  this.health = health;
+  this.items = [];
+  this.place = null;
 
-//   this.addItem = function (item) {
-//     this.items.push(item);
-//   };
-//   this.getName = function () {
-//     return this.name;
-//   };
-//   this.getHealth = function () {
-//     return this.name + " has health " + this.health;
-//   };
-//   this.getPlace = function () {
-//     return this.name + " is in " + this.place.title;
-//   };
-//   this.getItems = function () {
-//     var itemsString = "Items " + newLine;
-//     this.items.forEach(function (item) {
-//       itemsString += "   - " + item + newLine;
-//     });
-//     return itemsString;
-//   };
+  this.addItem = function (item) {
+    this.items.push(item);
+  };
+  this.getName = function () {
+    return this.name;
+  };
+  this.getHealth = function () {
+    return this.name + " has health " + this.health;
+  };
+  this.getPlace = function () {
+    return this.name + " is in " + this.place.title;
+  };
+  this.getItems = function () {
+    var itemsString = "Items " + newLine;
+    this.items.forEach(function (item) {
+      itemsString += "   - " + item + newLine;
+    });
+    return itemsString;
+  };
 
-//   this.getInfo = function (character) {
-//     var place = this.getPlace();
-//     var health = this.getHealth();
-//     var longest = Math.max(place.length, health.length) + 4;
-//     var info = spacer.box(this.getName(), longest, character);
-//     info += spacer.wrap(place, longest, character);
-//     info += newLine + spacer.wrap(health, longest, character);
-//     info += newLine + spacer.line(longest, character);
-//     info += newLine;
-//     info += " " + this.getItems();
-//     info += newLine;
-//     info += spacer.line(longest, character);
-//     info += newLine;
-//     return info;
-//   };
-//   this.showInfo = function (character) {
-//     console.log(this.getInfo(character));
-//   };
-// };
+  this.getInfo = function (character) {
+    var place = this.getPlace();
+    var health = this.getHealth();
+    var longest = Math.max(place.length, health.length) + 4;
+    var info = spacer.box(this.getName(), longest, character);
+    info += spacer.wrap(place, longest, character);
+    info += newLine + spacer.wrap(health, longest, character);
+    info += newLine + spacer.line(longest, character);
+    info += newLine;
+    info += " " + this.getItems();
+    info += newLine;
+    info += spacer.line(longest, character);
+    info += newLine;
+    return info;
+  };
+  this.showInfo = function (character) {
+    console.log(this.getInfo(character));
+  };
+};
 
 // var player1 = new Player("Kandra", 50);
 
@@ -678,7 +678,7 @@ var showExits = function () {
 addExit("north", kitchen);
 addExit("the trapdoor", dungeon);
 
-showExits();
+// showExits();
 
 var kitchen = new Place(
   "The Kitchen",
@@ -705,4 +705,31 @@ kitchen.addExit("east", cupboard);
 library.addExit("north", kitchen);
 garden.addExit("east", kitchen);
 cupboard.addExit("west", kitchen);
-kitchen.showInfo();
+// kitchen.showInfo();
+
+console.clear();
+// render game
+var render = function () {
+  console.clear();
+  player.place.showInfo();
+  player.showInfo("*");
+};
+
+var go = function (direction) {
+  // to move, go to player's location, find player location's exits, and based on the direction input, let player place property equal that location
+  player.place = player.place.exits[direction];
+  render();
+  return "";
+};
+var get = function () {
+  // for items, same idea, go to player's location, find items on ground in place items array, and pop(),
+  var item = player.place.items.pop();
+  player.addItem(item);
+  render();
+  return "";
+};
+
+var player = new Player("Kandra", 50);
+player.addItem("The Sword of Doom");
+player.place = kitchen;
+render();
