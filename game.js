@@ -96,7 +96,7 @@ player2 = {
 // console.log(getPlayerInfo(player1.name, player1.place, player1.health));
 // console.log(getPlayerInfo(player2.name, player2.place, player2.health));
 
-// // ? but its much easier to access when placing an object in the parameter. its cleaner, and if you needed to, you can decontruct it
+// ? but its much easier to access when placing an object in the parameter. its cleaner, and if you needed to, you can decontruct it
 
 // var planet1 = { name: "Jupiter", radius: 69911 };
 // var buildPlanet;
@@ -455,12 +455,14 @@ var CalendarEvent = function (title, startDate, startTime, endTime) {
 // );
 // calEvent.showEvent();
 
+//todo START HERE PLACE OBJECT
 var Place = function (title, description) {
   var newLine = spacer.newLine();
   this.title = title;
   this.description = description;
   this.items = [];
-  this.exits = [];
+  // exits are objects
+  this.exits = {};
 
   this.getItems = function () {
     var itemsString = "Items: " + spacer.newLine();
@@ -475,9 +477,11 @@ var Place = function (title, description) {
     return spacer.box(this.title, this.title.length + 4, "=");
   };
   this.getExits = function () {
-    var exitsString = "Exists from " + this.title;
-    this.exits.forEach(function (exit) {
-      exitsString += "   - " + exit.title;
+    var exitsString = "Exits from " + this.title;
+    exitsString += ":" + newLine;
+
+    Object.keys(this.exits).forEach(function (key) {
+      exitsString += "   - " + key;
       exitsString += newLine;
     });
     return exitsString;
@@ -493,11 +497,18 @@ var Place = function (title, description) {
   this.addItem = function (item) {
     this.items.push(item);
   };
-  this.addExit = function (exit) {
-    this.exits.push(exit);
+  this.addExit = function (direction, exit) {
+    this.exits[direction] = exit;
   };
   this.showInfo = function () {
     console.log(this.getInfo());
+  };
+  this.showExits = function () {
+    console.log("Exits from  " + this.title + ":");
+
+    Object.keys(this.exits).forEach(function (key) {
+      console.log(key);
+    });
   };
 };
 
@@ -603,42 +614,95 @@ var ages = {};
 // console.log(Object.values(ages));
 
 // ? using Object and keys to have word count for a set of tweets
-var tweets = [
-  "Education is showing business the way by using technology to share information. How do we do so safely?",
-  "Enjoy a free muffin & coffee with Post Plus, our new loyalty club exclusive to subscribers!",
-  "We're LIVE on Periscope right now answering all your #pet questions. tweet us yours now!",
-];
-console.log(tweets);
+// var tweets = [
+//   "Education is showing business the way by using technology to share information. How do we do so safely?",
+//   "Enjoy a free muffin & coffee with Post Plus, our new loyalty club exclusive to subscribers!",
+//   "We're LIVE on Periscope right now answering all your #pet questions. tweet us yours now!",
+// ];
+// console.log(tweets);
 
-var words = {};
-console.log(words);
+// var words = {};
+// console.log(words);
 // all the tweets together separated by spaces btween each tweet
-var tweetText = tweets.join(" ");
+// var tweetText = tweets.join(" ");
 // split words/segments by the spaces in between them!
-var tweetWords = tweetText.split(" ");
+// var tweetWords = tweetText.split(" ");
 // for each word, run a function where you add to words object, set to 0. [INITIALIZE THE OBJECT]
-tweetWords.forEach(function (word) {
-  words[word] = 0;
-});
+// tweetWords.forEach(function (word) {
+//   words[word] = 0;
+// });
 // RUN another for each word, then check in words object if word matches that property, add +1 every time the word appears
-tweetWords.forEach(function (word) {
-  // this is the long way
-  words[word] = words[word] + 1;
-  // not bad but can still be improved
-  words[word] += 1;
-  // concise
-  words[word]++;
-});
-console.log(words);
+// tweetWords.forEach(function (word) {
+//   // this is the long way
+//   words[word] = words[word] + 1;
+//   // not bad but can still be improved
+//   words[word] += 1;
+//   // concise
+//   words[word]++;
+// });
+// console.log(words);
 
 // how to check for each letter in a tweet
-var letters = {};
-var tweetText = tweets.join("");
-var tweetLetters = tweetText.split("");
-tweetLetters.forEach(function (letter) {
-  letters[letter.toLowerCase()] = 0;
-});
-tweetLetters.forEach(function (letter) {
-  letters[letter.toLowerCase()] += 1;
-});
-console.log(letters);
+// var letters = {};
+// var tweetText = tweets.join("");
+// var tweetLetters = tweetText.split("");
+// tweetLetters.forEach(function (letter) {
+//   letters[letter.toLowerCase()] = 0;
+// });
+// tweetLetters.forEach(function (letter) {
+//   letters[letter.toLowerCase()] += 1;
+// });
+// console.log(letters);
+var kitchen = new Place("The Kitchen");
+var dungeon = new Place("The Dungeon");
+var exits = {};
+exits["north"] = kitchen;
+exits["the trapdoor"] = dungeon;
+// var keys = Object.keys(exits);
+// keys.forEach(function (key) {
+//   console.log(key + " goes to " + exits[key].title);
+// });
+
+// create Exists and show it
+var addExit = function (direction, place) {
+  exits[direction] = place;
+};
+
+var showExits = function () {
+  var keys = Object.keys(exits);
+
+  keys.forEach(function (key) {
+    console.log(key + " goes to " + exits[key].title);
+  });
+};
+addExit("north", kitchen);
+addExit("the trapdoor", dungeon);
+
+showExits();
+
+var kitchen = new Place(
+  "The Kitchen",
+  "You are in a kitchen. There is a disturbing smell."
+);
+var library = new Place(
+  "The Old Library",
+  "You are in a library. Dusty books line the walls."
+);
+var garden = new Place(
+  "The Kitchen Garden",
+  "You are in a small, walled garden."
+);
+var cupboard = new Place(
+  "The Kitchen Cupboard",
+  "You are in a cupboard. It's surprisingly roomy."
+);
+kitchen.addItem("a piece of cheese");
+library.addItem("a rusty key");
+cupboard.addItem("a tin of spam");
+kitchen.addExit("south", library);
+kitchen.addExit("west", garden);
+kitchen.addExit("east", cupboard);
+library.addExit("north", kitchen);
+garden.addExit("east", kitchen);
+cupboard.addExit("west", kitchen);
+kitchen.showInfo();
