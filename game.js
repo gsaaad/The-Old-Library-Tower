@@ -518,3 +518,60 @@ library.addItem("A rusty key");
 library.addExit(kitchen);
 library.addExit(hall);
 library.showInfo();
+
+// ? Constructor function, Player
+var Player = function (name, health) {
+  var newLine = spacer.newLine();
+
+  this.name = name;
+  this.health = health;
+  this.items = [];
+  this.place = null;
+
+  this.addItem = function (item) {
+    this.items.push(item);
+  };
+  this.getName = function () {
+    return this.name;
+  };
+  this.getHealth = function () {
+    return this.name + " has health " + this.health;
+  };
+  this.getPlace = function () {
+    return this.name + " is in " + this.place.title;
+  };
+  this.getItems = function () {
+    var itemsString = "Items " + newLine;
+    this.items.forEach(function (item) {
+      itemsString += "   - " + item + newLine;
+    });
+    return itemsString;
+  };
+
+  this.getInfo = function (character) {
+    var place = this.getPlace();
+    var health = this.getHealth();
+    var longest = Math.max(place.length, health.length) + 4;
+    var info = spacer.box(this.getName(), longest, character);
+    info += spacer.wrap(place, longest, character);
+    info += newLine + spacer.wrap(health, longest, character);
+    info += newLine + spacer.line(longest, character);
+    info += newLine;
+    info += " " + this.getItems();
+    info += newLine;
+    info += spacer.line(longest, character);
+    info += newLine;
+    return info;
+  };
+  this.showInfo = function (character) {
+    console.log(this.getInfo(character));
+  };
+};
+
+var player1 = new Player("Kandra", 50);
+
+player1.place = library;
+player1.addItem("A rusty key");
+player1.addItem("The Sword of Doom");
+
+player1.showInfo("=");
