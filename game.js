@@ -501,77 +501,144 @@ var Place = function (title, description) {
   };
 };
 
-var library = new Place(
-  "The Old Library",
-  "You are in a library. Dusty books line the walls."
-);
+// var library = new Place(
+//   "The Old Library",
+//   "You are in a library. Dusty books line the walls."
+// );
 
-var kitchen = new Place(
-  "The Kitchen",
-  "You are in the kitchen. There is a disturbing smell"
-);
-var hall = new Place(
-  "The Main Hall",
-  "You are in a large hall. It is strangely empty"
-);
-library.addItem("A rusty key");
-library.addExit(kitchen);
-library.addExit(hall);
-library.showInfo();
+// var kitchen = new Place(
+//   "The Kitchen",
+//   "You are in the kitchen. There is a disturbing smell"
+// );
+// var hall = new Place(
+//   "The Main Hall",
+//   "You are in a large hall. It is strangely empty"
+// );
+// library.addItem("A rusty key");
+// library.addExit(kitchen);
+// library.addExit(hall);
+// library.showInfo();
 
 // ? Constructor function, Player
-var Player = function (name, health) {
-  var newLine = spacer.newLine();
+// var Player = function (name, health) {
+//   var newLine = spacer.newLine();
 
-  this.name = name;
-  this.health = health;
-  this.items = [];
-  this.place = null;
+//   this.name = name;
+//   this.health = health;
+//   this.items = [];
+//   this.place = null;
 
-  this.addItem = function (item) {
-    this.items.push(item);
-  };
-  this.getName = function () {
-    return this.name;
-  };
-  this.getHealth = function () {
-    return this.name + " has health " + this.health;
-  };
-  this.getPlace = function () {
-    return this.name + " is in " + this.place.title;
-  };
-  this.getItems = function () {
-    var itemsString = "Items " + newLine;
-    this.items.forEach(function (item) {
-      itemsString += "   - " + item + newLine;
-    });
-    return itemsString;
-  };
+//   this.addItem = function (item) {
+//     this.items.push(item);
+//   };
+//   this.getName = function () {
+//     return this.name;
+//   };
+//   this.getHealth = function () {
+//     return this.name + " has health " + this.health;
+//   };
+//   this.getPlace = function () {
+//     return this.name + " is in " + this.place.title;
+//   };
+//   this.getItems = function () {
+//     var itemsString = "Items " + newLine;
+//     this.items.forEach(function (item) {
+//       itemsString += "   - " + item + newLine;
+//     });
+//     return itemsString;
+//   };
 
-  this.getInfo = function (character) {
-    var place = this.getPlace();
-    var health = this.getHealth();
-    var longest = Math.max(place.length, health.length) + 4;
-    var info = spacer.box(this.getName(), longest, character);
-    info += spacer.wrap(place, longest, character);
-    info += newLine + spacer.wrap(health, longest, character);
-    info += newLine + spacer.line(longest, character);
-    info += newLine;
-    info += " " + this.getItems();
-    info += newLine;
-    info += spacer.line(longest, character);
-    info += newLine;
-    return info;
-  };
-  this.showInfo = function (character) {
-    console.log(this.getInfo(character));
-  };
-};
+//   this.getInfo = function (character) {
+//     var place = this.getPlace();
+//     var health = this.getHealth();
+//     var longest = Math.max(place.length, health.length) + 4;
+//     var info = spacer.box(this.getName(), longest, character);
+//     info += spacer.wrap(place, longest, character);
+//     info += newLine + spacer.wrap(health, longest, character);
+//     info += newLine + spacer.line(longest, character);
+//     info += newLine;
+//     info += " " + this.getItems();
+//     info += newLine;
+//     info += spacer.line(longest, character);
+//     info += newLine;
+//     return info;
+//   };
+//   this.showInfo = function (character) {
+//     console.log(this.getInfo(character));
+//   };
+// };
 
-var player1 = new Player("Kandra", 50);
+// var player1 = new Player("Kandra", 50);
 
-player1.place = library;
-player1.addItem("A rusty key");
-player1.addItem("The Sword of Doom");
+// player1.place = library;
+// player1.addItem("A rusty key");
+// player1.addItem("The Sword of Doom");
 
-player1.showInfo("=");
+// player1.showInfo("=");
+
+// ? more about objects and dot notation/when to use square
+// var states = {};
+// states["New Hampshire"] = "This works";
+// states["Ohio"] = "This also works";
+// states.michigan = "This also also works, for nonspaced elements";
+
+// var allStates = Object.keys(states);
+// console.log(allStates);
+// allStates.forEach((state) => {
+//   console.log(state);
+// });
+
+var ages = {};
+// basic function of adding key/value pairs
+// var addAge = function (name, age) {
+//   ages[name] = age;
+// };
+// addAge("Kandra Smith", 56);
+// addAge("Dax Aniaku", 21);
+// addAge("Blinky", 36);
+// console.log(ages["Kandra Smith"]);
+// console.log(ages["Dax Aniaku"]);
+// console.log(ages["Blinky"]);
+// console.log(Object.keys(ages));
+// console.log(Object.values(ages));
+
+// ? using Object and keys to have word count for a set of tweets
+var tweets = [
+  "Education is showing business the way by using technology to share information. How do we do so safely?",
+  "Enjoy a free muffin & coffee with Post Plus, our new loyalty club exclusive to subscribers!",
+  "We're LIVE on Periscope right now answering all your #pet questions. tweet us yours now!",
+];
+console.log(tweets);
+
+var words = {};
+console.log(words);
+// all the tweets together separated by spaces btween each tweet
+var tweetText = tweets.join(" ");
+// split words/segments by the spaces in between them!
+var tweetWords = tweetText.split(" ");
+// for each word, run a function where you add to words object, set to 0. [INITIALIZE THE OBJECT]
+tweetWords.forEach(function (word) {
+  words[word] = 0;
+});
+// RUN another for each word, then check in words object if word matches that property, add +1 every time the word appears
+tweetWords.forEach(function (word) {
+  // this is the long way
+  words[word] = words[word] + 1;
+  // not bad but can still be improved
+  words[word] += 1;
+  // concise
+  words[word]++;
+});
+console.log(words);
+
+// how to check for each letter in a tweet
+var letters = {};
+var tweetText = tweets.join("");
+var tweetLetters = tweetText.split("");
+tweetLetters.forEach(function (letter) {
+  letters[letter.toLowerCase()] = 0;
+});
+tweetLetters.forEach(function (letter) {
+  letters[letter.toLowerCase()] += 1;
+});
+console.log(letters);
