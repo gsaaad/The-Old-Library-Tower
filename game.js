@@ -733,3 +733,125 @@ var player = new Player("Kandra", 50);
 player.addItem("The Sword of Doom");
 player.place = kitchen;
 render();
+
+// asking questions and answers
+// var quiz = {
+//   questions: [
+//     {
+//       question: "What is the highest Mountain in the world?",
+//       answer: "Everest",
+//     },
+//     {
+//       question: "What is the highest mountain in Scotland?",
+//       answer: "Ben Nevis",
+//     },
+//     { question: "How many munros are in Scotland", answer: "284" },
+//   ],
+//   // question index
+//   qIndex: 0,
+//   // next question
+//   quizMe: function () {
+//     // return question[index].question
+//     return quiz.questions[quiz.qIndex].question;
+//   },
+//   showMe: function () {
+//     // return question[index].answer
+//     return quiz.questions[quiz.qIndex].answer;
+//   },
+//   next: function () {
+//     // go to next question, add 1 to qIndex counter
+//     quiz.qIndex = quiz.qIndex + 1;
+//     return "Ok";
+//   },
+// };
+
+var quiz;
+// you want to have functions formatted this way so that variables and functions are not accessed
+
+// var getQuiz = function () {
+//   var qIndex = 0;
+//   var questions = [
+//     {
+//       question: "What is the highest mountain in the world?",
+//       answer: "Everest",
+//     },
+//     {
+//       question: "What is the highest mountain in Scotland?",
+//       answer: "Ben Nevis",
+//     },
+//     {
+//       question: "How many munros are in Scotland?",
+//       answer: "284",
+//     },
+//   ];
+//   return {
+//     quizMe: function () {
+//       return questions[qIndex].question;
+//     },
+//     showMe: function () {
+//       return questions[qIndex].answer;
+//     },
+//     next: function () {
+//       qIndex = qIndex + 1;
+//       return "Ok";
+//     },
+//   };
+// };
+
+// var quiz = getQuiz();
+
+// quiz.quizMe();
+
+// var Player = function(name,health){
+//   // name and health are local variables
+
+//   this.getHealthInfo = function(){
+//     // name and health can be used here
+//   }
+// }
+
+var Player = function (name, health) {
+  var newLine = spacer.newLine();
+  var items = [];
+  var place = null;
+
+  var getNameInfo = function () {
+    return name;
+  };
+  var getHealthInfo = function () {
+    return "( " + health + " )";
+  };
+  var getItemsInfo = function () {
+    var itemsString = "Items: " + newLine;
+
+    items.forEach(function (item, i) {
+      itemsString += "   -" + item + newLine;
+    });
+    return itemsString;
+  };
+
+  var getTitleInfo = function () {
+    return getNameInfo() + " " + getHealthInfo();
+  };
+  var getInfo = function () {
+    var info = spacer.box(getTitleInfo(), 40, "*");
+    info += " " + getItemsInfo();
+    info += " " + spacer.line(40, "*");
+    info += newLine;
+
+    return info;
+  };
+
+  this.addItem = function (item) {
+    items.push(item);
+  };
+  this.setPlace = function (destination) {
+    place = destination;
+  };
+  this.getPlace = function () {
+    return place;
+  };
+  this.showInfo = function (character) {
+    console.log(getInfo(character));
+  };
+};
