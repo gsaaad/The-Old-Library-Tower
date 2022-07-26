@@ -855,3 +855,6 @@ var Player = function (name, health) {
     console.log(getInfo(character));
   };
 };
+
+var place = player.getPlace();
+Player.showInfo();
