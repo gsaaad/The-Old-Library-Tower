@@ -531,53 +531,53 @@ var Place = function (title, description) {
 // library.showInfo();
 
 // ? Constructor function, Player
-var Player = function (name, health) {
-  var newLine = spacer.newLine();
+// var Player = function (name, health) {
+//   var newLine = spacer.newLine();
 
-  this.name = name;
-  this.health = health;
-  this.items = [];
-  this.place = null;
+//   this.name = name;
+//   this.health = health;
+//   this.items = [];
+//   this.place = null;
 
-  this.addItem = function (item) {
-    this.items.push(item);
-  };
-  this.getName = function () {
-    return this.name;
-  };
-  this.getHealth = function () {
-    return this.name + " has health " + this.health;
-  };
-  this.getPlace = function () {
-    return this.name + " is in " + this.place.title;
-  };
-  this.getItems = function () {
-    var itemsString = "Items " + newLine;
-    this.items.forEach(function (item) {
-      itemsString += "   - " + item + newLine;
-    });
-    return itemsString;
-  };
+//   this.addItem = function (item) {
+//     this.items.push(item);
+//   };
+//   this.getName = function () {
+//     return this.name;
+//   };
+//   this.getHealth = function () {
+//     return this.name + " has health " + this.health;
+//   };
+//   this.getPlace = function () {
+//     return this.name + " is in " + this.place.title;
+//   };
+//   this.getItems = function () {
+//     var itemsString = "Items " + newLine;
+//     this.items.forEach(function (item) {
+//       itemsString += "   - " + item + newLine;
+//     });
+//     return itemsString;
+//   };
 
-  this.getInfo = function (character) {
-    var place = this.getPlace();
-    var health = this.getHealth();
-    var longest = Math.max(place.length, health.length) + 4;
-    var info = spacer.box(this.getName(), longest, character);
-    info += spacer.wrap(place, longest, character);
-    info += newLine + spacer.wrap(health, longest, character);
-    info += newLine + spacer.line(longest, character);
-    info += newLine;
-    info += " " + this.getItems();
-    info += newLine;
-    info += spacer.line(longest, character);
-    info += newLine;
-    return info;
-  };
-  this.showInfo = function (character) {
-    console.log(this.getInfo(character));
-  };
-};
+//   this.getInfo = function (character) {
+//     var place = this.getPlace();
+//     var health = this.getHealth();
+//     var longest = Math.max(place.length, health.length) + 4;
+//     var info = spacer.box(this.getName(), longest, character);
+//     info += spacer.wrap(place, longest, character);
+//     info += newLine + spacer.wrap(health, longest, character);
+//     info += newLine + spacer.line(longest, character);
+//     info += newLine;
+//     info += " " + this.getItems();
+//     info += newLine;
+//     info += spacer.line(longest, character);
+//     info += newLine;
+//     return info;
+//   };
+//   this.showInfo = function (character) {
+//     console.log(this.getInfo(character));
+//   };
+// };
 
 // var player1 = new Player("Kandra", 50);
 
@@ -815,33 +815,37 @@ var Player = function (name, health) {
   var items = [];
   var place = null;
 
+  //! these are private functions. internal use only
   var getNameInfo = function () {
     return name;
   };
+
   var getHealthInfo = function () {
     return "( " + health + " )";
   };
+
   var getItemsInfo = function () {
     var itemsString = "Items: " + newLine;
 
-    items.forEach(function (item, i) {
-      itemsString += "   -" + item + newLine;
+    items.forEach(function (item) {
+      itemsString += "   - " + item + newLine;
     });
     return itemsString;
   };
-
   var getTitleInfo = function () {
     return getNameInfo() + " " + getHealthInfo();
   };
+
   var getInfo = function () {
     var info = spacer.box(getTitleInfo(), 40, "*");
-    info += " " + getItemsInfo();
-    info += " " + spacer.line(40, "*");
+    info += "  " + getItemsInfo();
+    info += spacer.line(40, "*");
     info += newLine;
 
     return info;
   };
 
+  //! manage access
   this.addItem = function (item) {
     items.push(item);
   };
@@ -855,6 +859,3 @@ var Player = function (name, health) {
     console.log(getInfo(character));
   };
 };
-
-var place = player.getPlace();
-Player.showInfo();
