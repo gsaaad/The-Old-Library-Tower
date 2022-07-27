@@ -859,3 +859,29 @@ var Player = function (name, health) {
     console.log(getInfo(character));
   };
 };
+
+// to make a player, enter a name and health value
+
+var Place = function (title, description) {
+  // new line for logging info
+  var newLine = spacer.newLine();
+
+  // accessable, public
+
+  this.title = title;
+  this.description = description;
+  this.items = [];
+  this.exits = {};
+
+  // show info each function for each piece of info
+  this.getItemsInfo = function () {};
+  this.getExitsInfo = function () {};
+  this.getTitleInfo = function () {};
+  this.getInfo = function () {};
+
+  // show total info
+  this.showInfo = function () {};
+  // add items functions
+  this.addItem = function (item) {};
+  this.addExit = function (direction, exit) {};
+};
