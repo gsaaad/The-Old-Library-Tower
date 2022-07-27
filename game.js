@@ -734,7 +734,7 @@ player.addItem("The Sword of Doom");
 player.place = kitchen;
 render();
 
-// asking questions and answers
+//? asking questions and answers
 // var quiz = {
 //   questions: [
 //     {
@@ -810,78 +810,222 @@ var quiz;
 //   }
 // }
 
-var Player = function (name, health) {
-  var newLine = spacer.newLine();
-  var items = [];
-  var place = null;
+var GAMESTART;
+// TODO THIS IS WHERE THE GAME START
+// TODO SPACER, PLAYER, PLACE
 
-  //! these are private functions. internal use only
-  var getNameInfo = function () {
-    return name;
+var getGame = function () {
+  var spacer = {
+    blank: function () {
+      return "";
+    },
+    newLine: function () {
+      return "\n";
+    },
+    line: function (length, character) {
+      var longString = "****************************************";
+      longString += "----------------------------------------";
+      longString += "========================================";
+      longString += "++++++++++++++++++++++++++++++++++++++++";
+      longString += " ";
+      length = Math.max(0, length);
+      length = Math.min(40, length);
+      return longString.substr(longString.indexOf(character), length);
+    },
+    wrap: function (text, length, character) {
+      var padLength = length - text.length - 3;
+      var wrapText = character + " " + text;
+      wrapText += spacer.line(padLength, " ");
+      wrapText += character;
+      return wrapText;
+    },
+    box: function (text, length, character) {
+      var boxText = spacer.newLine();
+      boxText += spacer.line(length, character) + spacer.newLine();
+      boxText += spacer.wrap(text, length, character) + spacer.newLine();
+      boxText += spacer.line(length, character) + spacer.newLine();
+      return boxText;
+    },
   };
 
-  var getHealthInfo = function () {
-    return "( " + health + " )";
+  var Player = function (name, health) {
+    var newLine = spacer.newLine();
+    var items = [];
+    var place = null;
+
+    //! these are private functions. internal use only
+    var getNameInfo = function () {
+      return name;
+    };
+
+    var getHealthInfo = function () {
+      return "( " + health + " )";
+    };
+
+    var getItemsInfo = function () {
+      var itemsString = "Items: " + newLine;
+
+      items.forEach(function (item) {
+        itemsString += "   - " + item + newLine;
+      });
+      return itemsString;
+    };
+    var getTitleInfo = function () {
+      return getNameInfo() + " " + getHealthInfo();
+    };
+
+    var getInfo = function () {
+      var info = spacer.box(getTitleInfo(), 40, "*");
+      info += "  " + getItemsInfo();
+      info += spacer.line(40, "*");
+      info += newLine;
+
+      return info;
+    };
+
+    //! manage access
+    this.addItem = function (item) {
+      items.push(item);
+    };
+    this.setPlace = function (destination) {
+      place = destination;
+    };
+    this.getPlace = function () {
+      return place;
+    };
+    this.showInfo = function (character) {
+      console.log(getInfo(character));
+    };
   };
 
-  var getItemsInfo = function () {
-    var itemsString = "Items: " + newLine;
+  // to make a player, enter a name and health value
 
-    items.forEach(function (item) {
-      itemsString += "   - " + item + newLine;
-    });
-    return itemsString;
+  var Place = function (title, description) {
+    // new line for logging info
+    // private variables
+    var newLine = spacer.newLine();
+    var items = [];
+    var exits = {};
+
+    // accessable, public
+
+    this.title = title;
+    this.description = description;
+    this.items = [];
+    this.exits = {};
+
+    // show info each function for each piece of info
+    var getItemsInfo = function () {
+      var itemsString = "Items:" + newLine;
+      items.forEach(function (item) {
+        itemsString += "   -" + item;
+        itemsString += newLine;
+      });
+      return itemsString;
+    };
+    var getExitsInfo = function () {
+      var exitsString = "Exits from  " + title;
+      exitsString += ":" + newLine;
+
+      Object.keys(exits).forEach(function (key) {
+        exitsString += "   -" + key;
+        exitsString += newLine;
+      });
+      return exitsString;
+    };
+    var getTitleInfo = function () {
+      return spacer.box(title, title.length + 4, "=");
+    };
+
+    var getInfo = function () {
+      var infoString = getTitleInfo();
+      infoString += description;
+      infoString += newLine + newLine;
+      infoString += getItemsInfo() + newLine;
+      infoString += getExitsInfo();
+      infoString += spacer.line(40, "=") + newLinel;
+      return infoString;
+    };
+
+    // show total info
+    this.showInfo = function () {
+      console.log(getInfo());
+    };
+    // add items functions
+    this.addItem = function (item) {
+      items.push(item);
+    };
+    this.addExit = function (direction, exit) {
+      exits[direction] = exit;
+    };
+    this.getExit = function (direction) {
+      return exits[direction];
+    };
+    this.getLastItem = function () {
+      return items.pop();
+    };
   };
-  var getTitleInfo = function () {
-    return getNameInfo() + " " + getHealthInfo();
+  // render game
+  var render = function () {
+    console.clear();
+    player.getPlace().showInfo();
+    player.showInfo();
   };
 
-  var getInfo = function () {
-    var info = spacer.box(getTitleInfo(), 40, "*");
-    info += "  " + getItemsInfo();
-    info += spacer.line(40, "*");
-    info += newLine;
+  // var go = function (direction) {
+  //   var place = player.getPlace();
+  //   var destination = place.getExit(direction);
+  //   player.setPlace(destination);
+  //   render();
+  //   return "";
+  // };
+  // var get = function () {
+  //   var place = player.getPlace();
+  //   var item = place.getLastItem();
+  //   player.addItem(item);
+  //   render();
+  //   return " ";
+  // };
+  // Map
+  var kitchen = new Place(
+    "The Kitchen",
+    "You are in a kitchen. There is a disturbing smell."
+  );
+  var library = new Place(
+    "The Old Library",
+    "You are in a library. Dusty books line the walls."
+  );
+  // kitchen library add items
+  kitchen.addItem("a piece of cheese");
+  library.addItem("a rusty key");
+  // kitchen library add exits
+  kitchen.addExit("south", library);
+  library.addExit("north", kitchen);
 
-    return info;
-  };
-
-  //! manage access
-  this.addItem = function (item) {
-    items.push(item);
-  };
-  this.setPlace = function (destination) {
-    place = destination;
-  };
-  this.getPlace = function () {
-    return place;
-  };
-  this.showInfo = function (character) {
-    console.log(getInfo(character));
+  // first player is kandra, item sword, in kitchen
+  var player = new Player("Kandra", 50);
+  player.addItem("The Sword of Doom");
+  player.setPlace(kitchen);
+  render();
+  return {
+    // return player can go in direction
+    go: function (direction) {
+      var place = player.getPlace();
+      var destination = place.getExit(direction);
+      player.setPlace(destination);
+      render();
+      return "";
+    },
+    // player can get item
+    get: function () {
+      var place = player.getPlace();
+      var item = place.getLastItem();
+      player.addItem(item);
+      render();
+      return "";
+    },
   };
 };
+// so now player can only access go and get! keeping all other elements privaate and secure frmo manipulation
 
-// to make a player, enter a name and health value
-
-var Place = function (title, description) {
-  // new line for logging info
-  var newLine = spacer.newLine();
-
-  // accessable, public
-
-  this.title = title;
-  this.description = description;
-  this.items = [];
-  this.exits = {};
-
-  // show info each function for each piece of info
-  this.getItemsInfo = function () {};
-  this.getExitsInfo = function () {};
-  this.getTitleInfo = function () {};
-  this.getInfo = function () {};
-
-  // show total info
-  this.showInfo = function () {};
-  // add items functions
-  this.addItem = function (item) {};
-  this.addExit = function (direction, exit) {};
-};
+var game = getGame();
