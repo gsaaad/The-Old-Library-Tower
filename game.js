@@ -1,3 +1,7 @@
+const spacer = require("./Spacer");
+
+console.log(spacer);
+
 var GAMESTART;
 // TODO THIS IS WHERE THE GAME START
 // TODO SPACER, PLAYER, PLACE
@@ -131,7 +135,7 @@ var getGame = function () {
       infoString += newLine + newLine;
       infoString += getItemsInfo() + newLine;
       infoString += getExitsInfo();
-      infoString += spacer.line(40, "=") + newLinel;
+      infoString += spacer.line(40, "=") + newLine;
       return infoString;
     };
 
@@ -160,21 +164,6 @@ var getGame = function () {
     player.showInfo();
   };
 
-  // var go = function (direction) {
-  //   var place = player.getPlace();
-  //   var destination = place.getExit(direction);
-  //   player.setPlace(destination);
-  //   render();
-  //   return "";
-  // };
-  // var get = function () {
-  //   var place = player.getPlace();
-  //   var item = place.getLastItem();
-  //   player.addItem(item);
-  //   render();
-  //   return " ";
-  // };
-  // Map
   var kitchen = new Place(
     "The Kitchen",
     "You are in a kitchen. There is a disturbing smell."
@@ -200,17 +189,27 @@ var getGame = function () {
     go: function (direction) {
       var place = player.getPlace();
       var destination = place.getExit(direction);
-      player.setPlace(destination);
-      render();
-      return "";
+
+      if (destination !== undefined) {
+        player.setPlace(destination);
+        render();
+        return "";
+      } else {
+        return "*** There is no exit in that direction ***";
+      }
     },
     // player can get item
     get: function () {
       var place = player.getPlace();
       var item = place.getLastItem();
-      player.addItem(item);
-      render();
-      return "";
+
+      if (item !== undefined) {
+        player.addItem(item);
+        render();
+        return "";
+      } else {
+        return "*** There is no item to get ***";
+      }
     },
   };
 };

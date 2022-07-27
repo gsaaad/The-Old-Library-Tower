@@ -729,10 +729,10 @@ var get = function () {
   return "";
 };
 
-var player = new Player("Kandra", 50);
-player.addItem("The Sword of Doom");
-player.place = kitchen;
-render();
+// var player = new Player("Kandra", 50);
+// player.addItem("The Sword of Doom");
+// player.place = kitchen;
+// render();
 
 //? asking questions and answers
 // var quiz = {
@@ -943,7 +943,7 @@ var getGame = function () {
       infoString += newLine + newLine;
       infoString += getItemsInfo() + newLine;
       infoString += getExitsInfo();
-      infoString += spacer.line(40, "=") + newLinel;
+      infoString += spacer.line(40, "=") + newLine;
       return infoString;
     };
 
@@ -1029,3 +1029,77 @@ var getGame = function () {
 // so now player can only access go and get! keeping all other elements privaate and secure frmo manipulation
 
 var game = getGame();
+
+// conditional block If/else else if statements
+var getGuesser = function () {
+  var secret = Math.floor(Math.random() * 10 + 1);
+
+  return function (userNumber) {
+    if (userNumber === secret) {
+      return "Well done";
+    } else if (useRNumber > secret) {
+      return "Too High!";
+    } else {
+      return "Too low!";
+    }
+  };
+};
+var guess = getGuesser();
+
+var getQuiz = (function () {
+  var score = 0,
+    qIndex = 0,
+    inPlay = true,
+    questions,
+    next,
+    getQuestion,
+    checkAnswer,
+    submit;
+
+  questions = [
+    {
+      question: "What is the highest mountain in the world?",
+      answer: "Ben Nevis",
+    },
+    {
+      question: "What is the highest moutain in Scotland?",
+      answer: "Ben Nevis",
+    },
+  ];
+  getQuestion = function () {
+    if (inPlay) {
+      return questions[qIndex].question;
+    } else {
+      return "You have finished the quiz";
+    }
+  };
+  next = function () {
+    qIndex = qIndex + 1;
+
+    if (qIndex >= questions.length) {
+      inPlay = false;
+      console.log("You have finished the quiz!");
+    }
+  };
+  checkAnswer = function (userAnswer) {
+    if (userAnswer === questions[qIndex].answer) {
+      console.log("Correct!");
+      score = score + 1;
+    } else {
+      console.log("No, the answer is " + questions[qIndex].answer);
+    }
+  };
+  submit = function (userAnswer) {
+    var message = "You have finished the quiz!";
+
+    if (inPlay) {
+      checkAnswer(userAnswer);
+      next();
+      message = "Your score is " + score + " out of  " + qIndex;
+    }
+    return message;
+  };
+  return { quizMe: getQuestion, submit: submit };
+})();
+
+// var quiz = getQuiz();
