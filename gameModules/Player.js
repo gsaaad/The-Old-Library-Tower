@@ -50,3 +50,5 @@ var Player = function (name, health) {
     console.log(getInfo(character));
   };
 };
+
+module.exports = Player;

@@ -1101,5 +1101,3 @@ var getQuiz = (function () {
   };
   return { quizMe: getQuestion, submit: submit };
 })();
-
-// var quiz = getQuiz();

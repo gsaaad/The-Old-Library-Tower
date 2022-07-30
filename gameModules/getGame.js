@@ -1,52 +1,50 @@
+const Player = require("./Player");
+const buildMap = require("./buildMap");
+
 module.exports = (function () {
-  var getGame = function () {
-    var render = function () {
-      console.clear();
-      player.getPlace().showInfo();
-      player.showInfo();
-    };
+  const BuildMap = buildMap;
+  console.log(BuildMap, "this is map");
 
-    var firstPlace = theCrypt.buildMap();
-
-    var player = new theCrypt.Player("Kandra", 50);
-    player.addItem("The Sword of Doom");
-    player.setPlace(firstPlace);
-
-    render();
-
-    // Return the public interface
-    return {
-      go: function (direction) {
-        var place = player.getPlace();
-        var destination = place.getExit(direction);
-
-        if (destination !== undefined) {
-          player.setPlace(destination);
-          render();
-          return "";
-        } else {
-          return "*** There is no exit in that direction ***";
-        }
-      },
-
-      get: function () {
-        var place = player.getPlace();
-        var item = place.getLastItem();
-
-        if (item !== undefined) {
-          player.addItem(item);
-          render();
-          return "";
-        } else {
-          return "*** There is no item to get ***";
-        }
-      },
-    };
+  var render = function () {
+    console.clear();
+    player.getPlace().showInfo();
+    player.showInfo();
   };
 
-  if (window.theCrypt === undefined) {
-    window.theCrypt = {};
-  }
+  var firstPlace = BuildMap;
 
-  theCrypt.getGame = getGame;
+  var player = new Player("Kandra", 50);
+  player.addItem("The Sword of Doom");
+  player.setPlace(firstPlace);
+
+  render();
+
+  // Return the public interface
+  return {
+    go: function (direction) {
+      var place = player.getPlace();
+      var destination = place.getExit(direction);
+
+      if (destination !== undefined) {
+        player.setPlace(destination);
+        render();
+        return "";
+      } else {
+        return "*** There is no exit in that direction ***";
+      }
+    },
+
+    get: function () {
+      var place = player.getPlace();
+      var item = place.getLastItem();
+
+      if (item !== undefined) {
+        player.addItem(item);
+        render();
+        return "";
+      } else {
+        return "*** There is no item to get ***";
+      }
+    },
+  };
 })();

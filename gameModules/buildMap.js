@@ -1,9 +1,8 @@
 const Place = require("./Place");
 
 module.exports = (function () {
-  var place = Place("BLUEBERRY", "YUM YUM");
-  console.log(place);
-
+  // var place = new Place("BLUEBERRY", "YUM YUM");
+  // console.log(place);
   // Create some places
   var kitchen = new Place(
     "The Kitchen",

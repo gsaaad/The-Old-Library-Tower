@@ -1,61 +1,16 @@
-const { spacer } = require("./Spacer");
+const spacer = require("./Spacer");
+console.log(spacer);
+
 var Place = function (title, description) {
-  var spaceUse = spacer;
-  console.log(spaceUse, "we got space");
   // new line for logging info
   // private variables
+  const spaceUse = spacerUse;
+  console.log(spaceUse);
+  console.log("new line coming");
   var newLine = spaceUse.newLine();
+  console.log("", "this is new line!");
   var items = [];
   var exits = {};
-  var Player = function (name, health) {
-    var newLine = spaceUse.newLine();
-    var items = [];
-    var place = null;
-
-    //! these are private functions. internal use only
-    var getNameInfo = function () {
-      return name;
-    };
-
-    var getHealthInfo = function () {
-      return "( " + health + " )";
-    };
-
-    var getItemsInfo = function () {
-      var itemsString = "Items: " + newLine;
-
-      items.forEach(function (item) {
-        itemsString += "   - " + item + newLine;
-      });
-      return itemsString;
-    };
-    var getTitleInfo = function () {
-      return getNameInfo() + " " + getHealthInfo();
-    };
-
-    var getInfo = function () {
-      var info = spaceUse.box(getTitleInfo(), 40, "*");
-      info += "  " + getItemsInfo();
-      info += spaceUse.line(40, "*");
-      info += newLine;
-
-      return info;
-    };
-
-    //! manage access
-    this.addItem = function (item) {
-      items.push(item);
-    };
-    this.setPlace = function (destination) {
-      place = destination;
-    };
-    this.getPlace = function () {
-      return place;
-    };
-    this.showInfo = function (character) {
-      console.log(getInfo(character));
-    };
-  };
 
   // accessable, public
 
@@ -115,7 +70,5 @@ var Place = function (title, description) {
     return items.pop();
   };
 };
-var kitchen = new Place("kitchen", "dnfosndf");
-console.log(kitchen);
 
 module.exports = Place;
