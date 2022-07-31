@@ -1125,6 +1125,20 @@ var User = function (name) {
       sessions: sessions.slice(),
     };
   };
+  var userView = function () {
+    var getInfo = function (userData) {
+      var infoString = "\n" + userData.name + "\n";
+
+      userData.sessions.forEach(function (session) {
+        infoString += session.duration + "minutes on";
+        infoString += session.sessionDate + "\n";
+      });
+      infoString += "\n" + userData.total + "Minutes in total";
+      infoString += "\n Well Done!\n";
+
+      return infoString;
+    };
+  };
 };
 var user = new User("George");
 // console.log(User, user);
@@ -1133,47 +1147,49 @@ user.addSession("2022-06-22", 35);
 console.log("hello USer, ", user);
 console.log(user.getData().total);
 
-// var buildUser = function (userData) {
-//   var user = new User(userData.name);
+var buildUser = function (userData) {
+  var user = new User(userData.name);
+  userData.sessions.forEach(function (session) {
+    user.addSession(session.sessionDate, session.duration);
+  });
+  return user;
+};
+var userData = {
+  name: "Mahesha",
+  sessions: [
+    { sessionDate: "2022-07-28", duration: 120 },
+    { sessionDate: "2022-07-28", duration: 35 },
+    { sessionDate: "2022-07-28", duration: 45 },
+  ],
+};
+var user = buildUser(userData);
 
-//   userData.sessions.forEach(function (session) {
-//     user.addSession(session.sessionDate, session.duration);
-//   });
-
-//   return user;
-// };
-
-// var userinformation = buildUser(user);
-// console.log(user.addSession("2022-07-28", 44));
-
-// var mapData = {
-//   title: "The Dark House",
-//   firstPlace: "The Kitchen",
-
-//   places: [
-//     {
-//       title: "The Kitchen",
-//       description: "You are in a kitchen. There is a disturbbing smell.",
-//       items: ["a piece of cheese"],
-//       exits: [
-//         { direction: "south", to: "The Old Library" },
-//         { direction: "west", to: "The Kitchen Garden" },
-//         {
-//           direction: "east",
-//           to: "The Kichen Cupboard",
-//         },
-//       ],
-//     },
-
-//     {
-//       title: "The Old Library",
-//       description: "You are in a library. Dusty books line the walls.",
-//       items: ["a rusty key"],
-//       exits: [{ direction: "north", to: "The Kitchen" }],
-//     },
-//     {
-//       title: "The Kitchen Garden",
-//     },
-//     { title: "The Kichen Cupboard," },
-//   ],
-// };
+console.log(user.addSession("2022-07-30", 42));
+var mapData = {
+  title: "The Dark House",
+  firstPlace: "The Kitchen",
+  places: [
+    {
+      title: "The Kitchen",
+      description: "You are in a kitchen. There is a disturbing smell.",
+      items: ["a piece of cheese"],
+      exits: [
+        { direction: "south", to: "The Old Library" },
+        { direction: "west", to: "The Kitchen Garden" },
+        { direction: "east", to: "The Kitchen Cupboard" },
+      ],
+    },
+    {
+      title: "The Old Library",
+      description: "You are in a library. Dusty books line the walls.",
+      items: ["a rusty key"],
+      exits: [{ direction: "north", to: "The Kitchen" }],
+    },
+    {
+      title: "The Kitchen Garden",
+    },
+    {
+      title: "The Kitchen Cupboard",
+    },
+  ],
+};

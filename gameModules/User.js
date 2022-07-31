@@ -20,8 +20,37 @@ var User = function (name) {
   };
 };
 
+var userView = function () {
+  var getInfo = function (userData) {
+    var infoString = "\n" + userData.name + "\n";
+
+    userData.sessions.forEach(function (session) {
+      infoString += session.duration + " minutes on ";
+      infoString += session.sessionDate + "\n";
+    });
+
+    infoString += "\n" + userData.total + " minutes so far";
+    infoString += "\nWellDone\n";
+    return infoString;
+  };
+  var render = function (user) {
+    console.log(getInfo(user.getData()));
+  };
+  return {
+    render: render,
+  };
+};
+
 var user = new User("George");
-user.addSession("2017-02-05", 120);
-user.addSession("2017-02-06", 35);
-console.log(user.getData());
+user.addSession("202-07-25", 620);
+user.addSession("202-07-26", 125);
+user.addSession("202-07-26", 65);
+user.addSession("202-07-26", 15);
+user.addSession("202-07-26", 65);
+user.addSession("202-07-26", 25);
+user.addSession("202-07-26", 65);
+user.addSession("202-07-26", 85);
+// console.log(user.getData());
+// console.log(user.getData(), " user", "userINFSJDNFONSOFEN");
+userView().render(user);
 module.exports = User;

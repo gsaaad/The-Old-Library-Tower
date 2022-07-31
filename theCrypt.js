@@ -54,9 +54,9 @@ var theCrypt = function () {
       };
     };
 
-    if (window.theCrypt === undefined) {
-      window.theCrypt = {};
-    }
+    // if (window.theCrypt === undefined) {
+    //   window.theCrypt = {};
+    // }
 
     theCrypt.Player = Player;
   })();
@@ -67,6 +67,7 @@ var theCrypt = function () {
       var newLine = spacer.newLine();
       var items = [];
       var exits = {};
+      var challenges = {};
 
       var getItemsInfo = function () {
         var itemsString = "Items: " + newLine;
@@ -122,70 +123,137 @@ var theCrypt = function () {
       this.getLastItem = function () {
         return items.pop();
       };
-    };
 
-    if (window.theCrypt === undefined) {
-      window.theCrypt = {};
-    }
+      // add challenges and get challenges
+      this.addChallenge = function (direction, challenge) {
+        challenges[direction] = challenge;
+      };
+      this.getChallenge = function (direction) {
+        return challenges[direction];
+      };
+    };
 
     theCrypt.Place = Place;
   })();
 
   // MAPCODE
   (function () {
-    var buildMap = function () {
-      var Place = theCrypt.Place;
+    var mapData = {
+      title: "The Dark House",
+      firstPlace: "The Kitchen",
 
-      // Create some places
-      var kitchen = new Place(
-        "The Kitchen",
-        "You are in a kitchen. There is a disturbing smell."
-      );
-      var library = new Place(
-        "The Old Library",
-        "You are in a library. Dusty books line the walls."
-      );
-      var garden = new Place(
-        "The Kitchen Garden",
-        "You are in a small, walled garden."
-      );
-      var cupboard = new Place(
-        "The Kitchen Cupboard",
-        "You are in a cupboard. It's surprisingly roomy."
-      );
-
-      // Add items and exits to places
-      kitchen.addItem("a piece of cheese");
-      library.addItem("a rusty key");
-      cupboard.addItem("a tin of spam");
-
-      kitchen.addExit("south", library);
-      kitchen.addExit("west", garden);
-      kitchen.addExit("east", cupboard);
-
-      library.addExit("north", kitchen);
-      garden.addExit("east", kitchen);
-      cupboard.addExit("west", kitchen);
-
-      return kitchen;
+      places: [
+        {
+          title: "The Kitchen",
+          description: "You are in a kitchen. There is a disturbing smell.",
+          items: ["a piece of cheese"],
+          exits: [
+            {
+              direction: "south",
+              to: "The Old Library",
+            },
+            {
+              direction: "west",
+              to: "The Kitchen Garden",
+            },
+            {
+              direction: "east",
+              to: "The Kitchen Cupboard",
+            },
+          ],
+        },
+        {
+          title: "The Old Library",
+          description: "You are in a library. Disty books line the walls",
+          items: ["a rusty key"],
+          exits: [{ direction: "north", to: "The Kitchen" }],
+        },
+        {
+          title: "The Kitchen Garden",
+        },
+        {
+          title: "The Kitchen Cupboard",
+        },
+      ],
     };
 
-    if (window.theCrypt === undefined) {
-      window.theCrypt = {};
-    }
+    var buildMap = function () {
+      var placesStore = {};
+
+      var buildPlace = function (placeData) {
+        var place = new theCrypt.Place(placeData.title, placeData.description);
+        if (placeData.items !== undefined) {
+          placeData.items.forEach(place.addItem);
+        }
+        placesStore[placeData.title] = place;
+      };
+      var buildExits = function (placeData) {
+        var here = placesStore[placeData.title];
+        if (placeData.exits !== undefined) {
+          placeData.exits.forEach(function (exit) {
+            var there = placesStore[exit.to];
+            here.addExit(exit.direction, there);
+            here.addChallenge(exit.direction, exit.challenge);
+          });
+        }
+      };
+      mapData.places.forEach(buildPlace);
+      mapData.places.forEach(buildExits);
+      return placesStore[mapData.firstPlace];
+
+      // var Place = theCrypt.Place;
+
+      // // Create some places
+      // var kitchen = new Place(
+      //   "The Kitchen",
+      //   "You are in a kitchen. There is a disturbing smell."
+      // );
+      // var library = new Place(
+      //   "The Old Library",
+      //   "You are in a library. Dusty books line the walls."
+      // );
+      // var garden = new Place(
+      //   "The Kitchen Garden",
+      //   "You are in a small, walled garden."
+      // );
+      // var cupboard = new Place(
+      //   "The Kitchen Cupboard",
+      //   "You are in a cupboard. It's surprisingly roomy."
+      // );
+
+      // // Add items and exits to places
+      // kitchen.addItem("a piece of cheese");
+      // library.addItem("a rusty key");
+      // cupboard.addItem("a tin of spam");
+
+      // kitchen.addExit("south", library);
+      // kitchen.addExit("west", garden);
+      // kitchen.addExit("east", cupboard);
+
+      // library.addExit("north", kitchen);
+      // garden.addExit("east", kitchen);
+      // cupboard.addExit("west", kitchen);
+
+      // return kitchen;
+    };
+
+    //if (window.theCrypt === undefined) {
+    //      window.theCrypt = {};
+    //    }
 
     theCrypt.buildMap = buildMap;
   })();
   // GAME INITIALIZE
   (function () {
     var getGame = function () {
+      console.log("IN GAME!");
       var render = function () {
         console.clear();
         player.getPlace().showInfo();
         player.showInfo();
       };
 
-      var firstPlace = theCrypt.buildMap();
+      var firstPlace = theCrypt.buildMap(theCrypt.mapData);
 
       var player = new theCrypt.Player("Kandra", 50);
       player.addItem("The Sword of Doom");
@@ -223,10 +291,11 @@ var theCrypt = function () {
       };
     };
 
-    if (window.theCrypt === undefined) {
-      window.theCrypt = {};
-    }
+    //if (window.theCrypt === undefined) {
+    //      window.theCrypt = {};
+    //    }
 
     theCrypt.getGame = getGame;
   })();
 };
+console.log(theCrypt);
