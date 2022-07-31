@@ -1101,3 +1101,79 @@ var getQuiz = (function () {
   };
   return { quizMe: getQuestion, submit: submit };
 })();
+
+var User = function (name) {
+  this.name = name;
+  var sessions = [];
+  var totalDuration = 0;
+
+  this.addSession = function (sessionDate, duration) {
+    sessions.push({
+      sessionDate: sessionDate,
+      duration: duration,
+    });
+
+    totalDuration += duration;
+
+    return totalDuration;
+  };
+
+  this.getData = function () {
+    return {
+      name: name,
+      total: totalDuration,
+      sessions: sessions.slice(),
+    };
+  };
+};
+var user = new User("George");
+// console.log(User, user);
+user.addSession("2022-05-08", 120);
+user.addSession("2022-06-22", 35);
+console.log("hello USer, ", user);
+console.log(user.getData().total);
+
+// var buildUser = function (userData) {
+//   var user = new User(userData.name);
+
+//   userData.sessions.forEach(function (session) {
+//     user.addSession(session.sessionDate, session.duration);
+//   });
+
+//   return user;
+// };
+
+// var userinformation = buildUser(user);
+// console.log(user.addSession("2022-07-28", 44));
+
+// var mapData = {
+//   title: "The Dark House",
+//   firstPlace: "The Kitchen",
+
+//   places: [
+//     {
+//       title: "The Kitchen",
+//       description: "You are in a kitchen. There is a disturbbing smell.",
+//       items: ["a piece of cheese"],
+//       exits: [
+//         { direction: "south", to: "The Old Library" },
+//         { direction: "west", to: "The Kitchen Garden" },
+//         {
+//           direction: "east",
+//           to: "The Kichen Cupboard",
+//         },
+//       ],
+//     },
+
+//     {
+//       title: "The Old Library",
+//       description: "You are in a library. Dusty books line the walls.",
+//       items: ["a rusty key"],
+//       exits: [{ direction: "north", to: "The Kitchen" }],
+//     },
+//     {
+//       title: "The Kitchen Garden",
+//     },
+//     { title: "The Kichen Cupboard," },
+//   ],
+// };

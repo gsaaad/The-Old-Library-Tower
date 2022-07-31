@@ -1,14 +1,11 @@
 const spacer = require("./Spacer");
-console.log(spacer);
 
 var Place = function (title, description) {
   // new line for logging info
   // private variables
-  const spaceUse = spacerUse;
-  console.log(spaceUse);
-  console.log("new line coming");
-  var newLine = spaceUse.newLine();
-  console.log("", "this is new line!");
+  const spaceUse = spacer;
+  var newLine = spaceUse.newLine;
+
   var items = [];
   var exits = {};
 
@@ -68,6 +65,17 @@ var Place = function (title, description) {
   };
   this.getLastItem = function () {
     return items.pop();
+  };
+
+  // add challenge for this place
+  var challenges = {};
+
+  this.addChallenge = function (direction, challenge) {
+    challenges[direction] = challenge;
+  };
+
+  this.getChallenge = function (direction) {
+    return challenges[direction];
   };
 };
 

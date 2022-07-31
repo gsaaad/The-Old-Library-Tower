@@ -1,54 +1,64 @@
-const { spacer } = require("./Spacer");
+const spacer = require("./Spacer");
+console.log(spacer);
 
-var Player = function (name, health) {
-  var spaceUse = spacer;
-  var newLine = spaceUse.newLine();
-  var items = [];
-  var place = null;
+// IIFE PLAYER
+(function () {
+  var Player = function (name, health) {
+    var newLine = spacer.newLine();
+    var items = [];
+    var place = null;
 
-  //! these are private functions. internal use only
-  var getNameInfo = function () {
-    return name;
+    var getNameInfo = function () {
+      return name;
+    };
+
+    var getHealthInfo = function () {
+      return "(" + health + ")";
+    };
+
+    var getItemsInfo = function () {
+      var itemsString = "Items:" + newLine;
+
+      items.forEach(function (item, i) {
+        itemsString += "   - " + item + newLine;
+      });
+
+      return itemsString;
+    };
+
+    var getTitleInfo = function () {
+      return getNameInfo() + " " + getHealthInfo();
+    };
+
+    var getInfo = function () {
+      var info = spacer.box(getTitleInfo(), 40, "*");
+      info += "  " + getItemsInfo();
+      info += spacer.line(40, "*");
+      info += newLine;
+
+      return info;
+    };
+
+    this.addItem = function (item) {
+      items.push(item);
+    };
+
+    this.setPlace = function (destination) {
+      place = destination;
+    };
+
+    this.getPlace = function () {
+      return place;
+    };
+
+    this.showInfo = function (character) {
+      console.log(getInfo(character));
+    };
   };
 
-  var getHealthInfo = function () {
-    return "( " + health + " )";
-  };
+  if (window.theCrypt === undefined) {
+    window.theCrypt = {};
+  }
 
-  var getItemsInfo = function () {
-    var itemsString = "Items: " + newLine;
-
-    items.forEach(function (item) {
-      itemsString += "   - " + item + newLine;
-    });
-    return itemsString;
-  };
-  var getTitleInfo = function () {
-    return getNameInfo() + " " + getHealthInfo();
-  };
-
-  var getInfo = function () {
-    var info = spaceUse.box(getTitleInfo(), 40, "*");
-    info += "  " + getItemsInfo();
-    info += spaceUse.line(40, "*");
-    info += newLine;
-
-    return info;
-  };
-
-  //! manage access
-  this.addItem = function (item) {
-    items.push(item);
-  };
-  this.setPlace = function (destination) {
-    place = destination;
-  };
-  this.getPlace = function () {
-    return place;
-  };
-  this.showInfo = function (character) {
-    console.log(getInfo(character));
-  };
-};
-
-module.exports = Player;
+  theCrypt.Player = Player;
+})();

@@ -25,7 +25,7 @@ var spacer = {
       characterIndex = 0;
     }
 
-    return longString.substr(characterIndex, length);
+    return longString.substring(characterIndex, length);
   },
 
   wrap: function (text, length, character) {

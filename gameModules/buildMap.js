@@ -1,38 +1,25 @@
-const Place = require("./Place");
+var buildMap = function (mapData) {
+  var placesStore = {};
+  var buildPlace = function (placeData) {
+    var place = new theCrypt.Place(placeData.title, placeData.description);
+    if (placeData.items !== undefined) {
+      placeData.items.forEach(place.addItem);
+    }
+    placesStore[placeData.title] = place;
+  };
+  var buildExits = function (placeData) {
+    var here = placesStore[placeData.title];
+    if (placeData.exits !== undefined) {
+      placeData.exits.forEach(function (exit) {
+        var there = placesStore[exit.to];
+        here.addExit(exit.direction, there);
+        here.addChallenge(exit.direction, exit.challenge);
+      });
+    }
+  };
+  mapData.places.forEach(buildPlace);
+  mapData.places.forEach(buildExits);
+  return placesStore[mapData.firstPlace];
+};
 
-module.exports = (function () {
-  // var place = new Place("BLUEBERRY", "YUM YUM");
-  // console.log(place);
-  // Create some places
-  var kitchen = new Place(
-    "The Kitchen",
-    "You are in a kitchen. There is a disturbing smell."
-  );
-  var library = new Place(
-    "The Old Library",
-    "You are in a library. Dusty books line the walls."
-  );
-  var garden = new Place(
-    "The Kitchen Garden",
-    "You are in a small, walled garden."
-  );
-  var cupboard = new Place(
-    "The Kitchen Cupboard",
-    "You are in a cupboard. It's surprisingly roomy."
-  );
-
-  // Add items and exits to places
-  kitchen.addItem("a piece of cheese");
-  library.addItem("a rusty key");
-  cupboard.addItem("a tin of spam");
-
-  kitchen.addExit("south", library);
-  kitchen.addExit("west", garden);
-  kitchen.addExit("east", cupboard);
-
-  library.addExit("north", kitchen);
-  garden.addExit("east", kitchen);
-  cupboard.addExit("west", kitchen);
-
-  return kitchen;
-})();
+module.exports = buildMap;

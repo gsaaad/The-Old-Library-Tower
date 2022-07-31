@@ -3,7 +3,6 @@ const buildMap = require("./buildMap");
 
 module.exports = (function () {
   const BuildMap = buildMap;
-  console.log(BuildMap, "this is map");
 
   var render = function () {
     console.clear();
